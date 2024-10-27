@@ -3,5 +3,4 @@
 # Markdown content
 
 Here is some content.
-
 /~
