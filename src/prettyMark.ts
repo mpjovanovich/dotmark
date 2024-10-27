@@ -2,7 +2,7 @@ import hljs from "highlightjs";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 
-const PRETTYMARK_TOKEN = "PRETTYMARK_DIV";
+export const PRETTYMARK_TOKEN = "PRETTYMARK_DIV";
 
 /* ************************************************************************
  * PUBLIC API
