@@ -1,6 +1,7 @@
 {
-  "name": "pretty-mark",
   "version": "0.0.1",
+  "name": "pretty-mark",
+  "author": "Mike Jovanovich",
   "description": "An easy syntax to wrap markdown in divs with the id and classes of your choice.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,14 +29,14 @@
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "quicktest": "TS_NODE_PROJECT=tsconfig.dev.json node --loader ts-node/esm test/test.ts"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "@types/node": "^22.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
-  },
-  "engines": {
-    "node": ">=18"
   }
 }
