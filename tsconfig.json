@@ -6,10 +6,11 @@
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
-    "noEmit": false,
+    "noEmit": true,
     "sourceMap": false,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },
