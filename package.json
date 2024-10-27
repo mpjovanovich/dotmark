@@ -26,8 +26,9 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
-    "quicktest": "node --loader ts-node/esm test/test.ts"
+    "quicktest": "node --loader ts-node/esm test/test.ts",
+    "test": "jest",
+    "debugtest": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "license": "MIT",
   "type": "module",

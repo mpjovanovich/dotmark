@@ -9,6 +9,15 @@
       "runtimeArgs": ["run", "quicktest"],
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "debugtest",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "debugtest"],
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true
     }
   ]
 }
