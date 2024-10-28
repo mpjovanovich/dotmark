@@ -1,1 +1,1 @@
-export { parseDotmark } from "./dotmark.ts";
+export { parseDotmark } from "./dotmark.js";
