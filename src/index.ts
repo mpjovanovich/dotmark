@@ -1,1 +1,1 @@
-export { prettyMark } from "./prettyMark.js";
+export { parseDotmark } from "./dotmark.ts";

@@ -2,12 +2,12 @@ import hljs from "highlightjs";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 
-export const PRETTYMARK_TOKEN = "PRETTYMARK_DIV";
+export const DOTMARK_TOKEN = "DOTMARK_DIV";
 
 /* ************************************************************************
  * PUBLIC API
  * ***********************************************************************/
-export const prettyMark = async (
+export const parseDotmark = async (
   markdown: string,
   useHighlightJS = false,
   useGitHubStyleIds = false
@@ -19,9 +19,9 @@ export const prettyMark = async (
       const trimmedLine = line.trim();
       if (isMacroStart(trimmedLine)) {
         const { id, classes } = parseMacro(trimmedLine);
-        return createPrettyMarkDiv(id, classes);
+        return createDotmarkDiv(id, classes);
       } else if (isMacroEnd(trimmedLine)) {
-        return `<!--${PRETTYMARK_TOKEN}</div>${PRETTYMARK_TOKEN}-->`;
+        return `<!--${DOTMARK_TOKEN}</div>${DOTMARK_TOKEN}-->`;
       }
       return line;
     })
@@ -61,7 +61,7 @@ export const prettyMark = async (
   markdown = await marked.parse(parsedMarkdown);
 
   // REMOVE TOKENS
-  markdown = removePrettyMarkTokens(markdown);
+  markdown = removeDotmarkTokens(markdown);
 
   return markdown;
 };
@@ -70,28 +70,28 @@ export const prettyMark = async (
  * PRIVATE FUNCTIONS - some exposed for testing
  * ***********************************************************************/
 
-// Create a pretty-mark commented div with the id and classes that were passed in.
-export const createPrettyMarkDiv = (
+// Create a dotmark commented div with the id and classes that were passed in.
+export const createDotmarkDiv = (
   id?: string,
   classes: string[] = []
 ): string => {
   const idAttr = id ? ` id="${id}"` : "";
   const classAttr = classes.length > 0 ? ` class="${classes.join(" ")}"` : "";
-  return `<!--${PRETTYMARK_TOKEN}<div${idAttr}${classAttr}>${PRETTYMARK_TOKEN}-->`;
+  return `<!--${DOTMARK_TOKEN}<div${idAttr}${classAttr}>${DOTMARK_TOKEN}-->`;
 };
 
-// Check if the line is the end of a pretty-mark macro.
+// Check if the line is the end of a dotmark macro.
 const isMacroEnd = (line: string): boolean => {
   return line === "/~";
 };
 
-// Check if the line is the start of a pretty-mark macro.
+// Check if the line is the start of a dotmark macro.
 const isMacroStart = (line: string): boolean => {
   // We expect the line to be trimmed.
   return line.startsWith("~") && (line[1] === "#" || line[1] === ".");
 };
 
-// Parse the start of a pretty-mark macro to get the id and classes.
+// Parse the start of a dotmark macro to get the id and classes.
 export const parseMacro = (
   line: string
 ): { id?: string; classes: string[] } => {
@@ -116,9 +116,9 @@ export const parseMacro = (
   return { id, classes };
 };
 
-// Remove comments from pretty-mark divs from the markdown.
-const removePrettyMarkTokens = (markdown: string): string => {
+// Remove comments from dotmark divs from the markdown.
+const removeDotmarkTokens = (markdown: string): string => {
   return markdown
-    .replace(new RegExp(`<!--${PRETTYMARK_TOKEN}`, "g"), "")
-    .replace(new RegExp(`${PRETTYMARK_TOKEN}-->`, "g"), "");
+    .replace(new RegExp(`<!--${DOTMARK_TOKEN}`, "g"), "")
+    .replace(new RegExp(`${DOTMARK_TOKEN}-->`, "g"), "");
 };

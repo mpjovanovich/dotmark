@@ -1,4 +1,4 @@
-import { parseMacro } from "../src/prettyMark";
+import { parseMacro } from "../src/dotmark";
 
 describe("parseMacro", () => {
   test("parses single id macro", () => {

@@ -1,14 +1,14 @@
 {
   "version": "0.0.1",
-  "name": "@mpjovanovich/pretty-mark",
+  "name": "@mpjovanovich/dotmark",
   "author": "Mike Jovanovich",
-  "description": "An easy syntax to wrap markdown in divs with the id and classes of your choice.",
+  "description": "An unobtrusive syntax for styling markdown.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "homepage": "https://github.com/mpjovanovich/pretty-mark#readme",
+  "homepage": "https://github.com/mpjovanovich/dotmark#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mpjovanovich/pretty-mark.git"
+    "url": "https://github.com/mpjovanovich/dotmark.git"
   },
   "keywords": [
     "markdown",
@@ -22,7 +22,7 @@
     "/README.md"
   ],
   "bugs": {
-    "url": "https://github.com/mpjovanovich/pretty-mark/issues"
+    "url": "https://github.com/mpjovanovich/dotmark/issues"
   },
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
