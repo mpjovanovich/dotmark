@@ -1,5 +1,12 @@
 import { parseMacro } from "../src/dotmark";
 
+// Mock shiki to avoid errors
+jest.mock("shiki", () => ({
+  createHighlighter: jest.fn().mockResolvedValue({
+    codeToHtml: jest.fn().mockReturnValue("<pre><code>mocked</code></pre>"),
+  }),
+}));
+
 describe("parseMacro", () => {
   test("parses single id macro", () => {
     const result = parseMacro("~#myId");

@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.5",
   "name": "@mpjovanovich/dotmark",
   "author": "Mike Jovanovich",
   "description": "An unobtrusive syntax for styling markdown.",
@@ -36,7 +36,6 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@types/highlightjs": "^9.12.6",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.8.1",
     "jest": "^29.7.0",
@@ -45,8 +44,8 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "highlightjs": "^9.16.2",
     "marked-highlight": "^2.2.0",
-    "markedjs": "^0.0.1-security"
+    "markedjs": "^0.0.1-security",
+    "shiki": "^1.24.2"
   }
 }

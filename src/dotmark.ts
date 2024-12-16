@@ -1,6 +1,6 @@
-import hljs from "highlightjs";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
+import { codeToHtml } from "shiki";
 
 export const DOTMARK_TOKEN = "DOTMARK_DIV";
 
@@ -9,8 +9,9 @@ export const DOTMARK_TOKEN = "DOTMARK_DIV";
  * ***********************************************************************/
 export const parseDotmark = async (
   markdown: string,
-  useHighlightJS = false,
-  useGitHubStyleIds = false
+  useSyntaxHighlighting = false,
+  useGitHubStyleIds = false,
+  theme = "one-light"
 ): Promise<string> => {
   // EMBED TOKENS
   let parsedMarkdown = markdown
@@ -29,23 +30,32 @@ export const parseDotmark = async (
 
   // PARSE MARKDOWN
   let marked = new Marked();
+  const renderer = new marked.Renderer();
 
-  // Add highlightjs if requested
-  if (useHighlightJS) {
+  // Add syntax highlighting if requested
+  if (useSyntaxHighlighting) {
     const highlightExtension = markedHighlight({
-      async: false,
-      langPrefix: "hljs language-",
-      highlight(code, lang, info) {
-        const language = hljs.getLanguage(lang) ? lang : "plaintext";
-        return hljs.highlight(language, code).value;
+      async: true,
+      langPrefix: "shiki language-",
+      highlight(code, lang) {
+        // Fall back to 'text' if language isn't found
+        return codeToHtml(code, {
+          lang: lang || "text",
+          theme: theme,
+        });
       },
     });
-    marked = new Marked(highlightExtension);
+
+    // Override the code block renderer to not add additional pre/code tags
+    renderer.code = function ({ text, lang, escaped }) {
+      return text; // Just return the already-highlighted code
+    };
+
+    marked.use(highlightExtension);
   }
 
   if (useGitHubStyleIds) {
     // Override the heading render method to include GitHub style IDs
-    const renderer = new marked.Renderer();
     renderer.heading = function ({ text, depth }) {
       const escapedText = text
         .toLowerCase()
@@ -54,10 +64,10 @@ export const parseDotmark = async (
 
       return `<h${depth} id="${escapedText}">${text}</h${depth}>\n`;
     };
-    marked.setOptions({ renderer: renderer });
   }
 
   // Parse the markdown
+  marked.setOptions({ renderer: renderer });
   markdown = await marked.parse(parsedMarkdown);
 
   // REMOVE TOKENS

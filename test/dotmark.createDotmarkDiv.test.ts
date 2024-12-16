@@ -1,5 +1,12 @@
 import { DOTMARK_TOKEN, createDotmarkDiv } from "../src/dotmark.ts";
 
+// Mock shiki to avoid errors
+jest.mock("shiki", () => ({
+  createHighlighter: jest.fn().mockResolvedValue({
+    codeToHtml: jest.fn().mockReturnValue("<pre><code>mocked</code></pre>"),
+  }),
+}));
+
 describe("createDotmarkDiv", () => {
   it("creates div without id or classes", () => {
     const result = createDotmarkDiv();
