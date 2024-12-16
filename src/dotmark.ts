@@ -49,8 +49,8 @@ export const parseDotmark = async (
     renderer.heading = function ({ text, depth }) {
       const escapedText = text
         .toLowerCase()
-        .replace(/[^\w]+/g, "-") // Replace non-word characters with hyphens
-        .replace(/^-+|-+$/g, ""); // Remove leading and trailing hyphens
+        .replace(/[^\w\s-]+/g, "") // Remove all special characters (keep spaces and hyphens)
+        .replace(/ /g, "-"); // Convert spaces to hyphens
 
       return `<h${depth} id="${escapedText}">${text}</h${depth}>\n`;
     };

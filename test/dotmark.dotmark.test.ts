@@ -9,10 +9,18 @@ describe("parseDotmark", () => {
   });
 
   test("GitHub-style IDs", async () => {
-    const input = "# Hello, World!\n## Test Heading";
+    const input =
+      "# Test Heading\n# Test, Zero!\n# Test - One\n# Test-Two\n# Test: Three\n# Test:Four\n# Test & Special @ Characters!";
     const output = await parseDotmark(input, false, true);
-    expect(output).toContain('<h1 id="hello-world">Hello, World!</h1>');
-    expect(output).toContain('<h2 id="test-heading">Test Heading</h2>');
+    expect(output).toContain('<h1 id="test-heading">Test Heading</h1>');
+    expect(output).toContain('<h1 id="test-zero">Test, Zero!</h1>');
+    expect(output).toContain('<h1 id="test---one">Test - One</h1>');
+    expect(output).toContain('<h1 id="test-two">Test-Two</h1>');
+    expect(output).toContain('<h1 id="test-three">Test: Three</h1>');
+    expect(output).toContain('<h1 id="testfour">Test:Four</h1>');
+    expect(output).toContain(
+      '<h1 id="test--special--characters">Test & Special @ Characters!</h1>'
+    );
   });
 
   test("handles empty input", async () => {
