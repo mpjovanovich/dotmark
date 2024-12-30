@@ -11,7 +11,8 @@ export const parseDotmark = async (
   markdown: string,
   useSyntaxHighlighting = false,
   useGitHubStyleIds = false,
-  theme = "one-light"
+  lightTheme = "one-light",
+  darkTheme = "one-dark-pro"
 ): Promise<string> => {
   // EMBED TOKENS
   let parsedMarkdown = markdown
@@ -41,7 +42,10 @@ export const parseDotmark = async (
         // Fall back to 'text' if language isn't found
         return codeToHtml(code, {
           lang: lang || "text",
-          theme: theme,
+          themes: {
+            light: lightTheme,
+            dark: darkTheme,
+          },
         });
       },
     });
