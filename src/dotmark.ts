@@ -9,7 +9,6 @@ export const DOTMARK_TOKEN = "DOTMARK_DIV";
  * ***********************************************************************/
 export const parseDotmark = async (
   markdown: string,
-  useSyntaxHighlighting = false,
   useGitHubStyleIds = false,
   lightTheme = "one-light",
   darkTheme = "one-dark-pro"
@@ -33,13 +32,12 @@ export const parseDotmark = async (
   let marked = new Marked();
   const renderer = new marked.Renderer();
 
-  // Add syntax highlighting if requested
-  if (useSyntaxHighlighting) {
-    const highlightExtension = markedHighlight({
-      async: true,
-      langPrefix: "shiki language-",
-      highlight(code, lang) {
-        // Fall back to 'text' if language isn't found
+  // Use shiki for syntax highlighting
+  const highlightExtension = markedHighlight({
+    async: true,
+    langPrefix: "shiki language-",
+    async highlight(code, lang) {
+      try {
         return codeToHtml(code, {
           lang: lang || "text",
           themes: {
@@ -47,16 +45,19 @@ export const parseDotmark = async (
             dark: darkTheme,
           },
         });
-      },
-    });
+      } catch (error) {
+        console.error("Failed to highlight code:", error);
+        return `<pre class="code-error">${code}</pre>`;
+      }
+    },
+  });
 
-    // Override the code block renderer to not add additional pre/code tags
-    renderer.code = function ({ text, lang, escaped }) {
-      return text; // Just return the already-highlighted code
-    };
+  // Override the code block renderer to not add additional pre/code tags
+  renderer.code = function ({ text, lang, escaped }) {
+    return text; // Just return the already-highlighted code
+  };
 
-    marked.use(highlightExtension);
-  }
+  marked.use(highlightExtension);
 
   if (useGitHubStyleIds) {
     // Override the heading render method to include GitHub style IDs
