@@ -20,7 +20,7 @@ export const parseDotmark = async (
       const trimmedLine = line.trim();
       if (isMacroStart(trimmedLine)) {
         const { id, classes } = parseMacro(trimmedLine);
-        return createDotmarkDiv(id, classes);
+        return embedDotmarkTokens(id, classes);
       } else if (isMacroEnd(trimmedLine)) {
         return `<!--${DOTMARK_TOKEN}</div>${DOTMARK_TOKEN}-->`;
       }
@@ -61,12 +61,8 @@ export const parseDotmark = async (
 
   if (useGitHubStyleIds) {
     // Override the heading render method to include GitHub style IDs
-    renderer.heading = function ({ text, depth }) {
-      const escapedText = text
-        .toLowerCase()
-        .replace(/[^\w\s-]+/g, "") // Remove all special characters (keep spaces and hyphens)
-        .replace(/ /g, "-"); // Convert spaces to hyphens
-
+    renderer.heading = ({ text, depth }) => {
+      const escapedText = textToGitHubId(text);
       return `<h${depth} id="${escapedText}">${text}</h${depth}>\n`;
     };
   }
@@ -82,11 +78,11 @@ export const parseDotmark = async (
 };
 
 /* ************************************************************************
- * PRIVATE FUNCTIONS - some exposed for testing
+ * PRIVATE FUNCTIONS - exposed for testing
  * ***********************************************************************/
 
 // Create a dotmark commented div with the id and classes that were passed in.
-export const createDotmarkDiv = (
+export const embedDotmarkTokens = (
   id?: string,
   classes: string[] = []
 ): string => {
@@ -96,12 +92,12 @@ export const createDotmarkDiv = (
 };
 
 // Check if the line is the end of a dotmark macro.
-const isMacroEnd = (line: string): boolean => {
+export const isMacroEnd = (line: string): boolean => {
   return line === "/~";
 };
 
 // Check if the line is the start of a dotmark macro.
-const isMacroStart = (line: string): boolean => {
+export const isMacroStart = (line: string): boolean => {
   // We expect the line to be trimmed.
   return line.startsWith("~") && (line[1] === "#" || line[1] === ".");
 };
@@ -132,8 +128,16 @@ export const parseMacro = (
 };
 
 // Remove comments from dotmark divs from the markdown.
-const removeDotmarkTokens = (markdown: string): string => {
+export const removeDotmarkTokens = (markdown: string): string => {
   return markdown
     .replace(new RegExp(`<!--${DOTMARK_TOKEN}`, "g"), "")
     .replace(new RegExp(`${DOTMARK_TOKEN}-->`, "g"), "");
+};
+
+// Convert text to GitHub-style heading ID
+export const textToGitHubId = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]+/g, "") // Remove all special characters (keep spaces and hyphens)
+    .replace(/ /g, "-"); // Convert spaces to hyphens
 };

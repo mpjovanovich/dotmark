@@ -4,18 +4,20 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "quicktest",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "quicktest"],
+      "name": "vitest",
+      "autoAttachChildProcesses": true,
       "skipFiles": ["<node_internals>/**"],
-      "sourceMaps": true
+      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "${relativeFile}"],
+      "smartStep": true,
+      "console": "integratedTerminal"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "debugtest",
+      "name": "quicktest",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "debugtest"],
+      "runtimeArgs": ["run", "quicktest"],
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true
     }
