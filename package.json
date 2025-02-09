@@ -43,6 +43,7 @@
   "dependencies": {
     "marked-highlight": "^2.2.0",
     "markedjs": "^0.0.1-security",
+    "prettier": "^3.4.2",
     "shiki": "^1.24.2"
   }
 }

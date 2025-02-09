@@ -8,11 +8,7 @@ export const DOTMARK_TOKEN = "DOTMARK_DIV";
 /* ************************************************************************
  * PUBLIC API
  * ***********************************************************************/
-export const parseDotmark = async (
-  markdown: string,
-  lightTheme = "one-light",
-  darkTheme = "one-dark-pro"
-): Promise<string> => {
+export const parseDotmark = async (markdown: string): Promise<string> => {
   // EMBED TOKENS
   let parsedMarkdown = markdown
     .split("\n")
@@ -33,6 +29,8 @@ export const parseDotmark = async (
   const renderer = new marked.Renderer();
 
   // Use shiki for syntax highlighting
+  const lightTheme = "one-light";
+  const darkTheme = "one-dark-pro";
   const highlightExtension = markedHighlight({
     async: true,
     langPrefix: "shiki language-",
