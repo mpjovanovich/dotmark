@@ -1,5 +1,6 @@
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
+import prettier from "prettier";
 import { codeToHtml } from "shiki";
 
 export const DOTMARK_TOKEN = "DOTMARK_DIV";
@@ -70,6 +71,14 @@ export const parseDotmark = async (
 
   // REMOVE TOKENS
   markdown = removeDotmarkTokens(markdown);
+
+  // PRETTIFY
+  const prettierOptions = {
+    parser: "html",
+    printWidth: 80,
+    tabWidth: 2,
+  };
+  markdown = await prettier.format(markdown, prettierOptions);
 
   return markdown;
 };
