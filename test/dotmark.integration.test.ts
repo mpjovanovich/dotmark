@@ -49,7 +49,7 @@ Inner stuff
 const x = 1;
 \`\`\``;
 
-    const result = await parseDotmark(input, true, "one-light", "one-dark-pro");
+    const result = await parseDotmark(input, "one-light", "one-dark-pro");
 
     // Check basic markdown works
     expect(result).toContain('<h1 id="title">Title</h1>');
@@ -73,20 +73,9 @@ const x = 1;
   });
 });
 
-test("respects github ids not turned on", async () => {
-  const input = `# Title`;
-  const result = await parseDotmark(
-    input,
-    false,
-    "github-light",
-    "github-dark"
-  );
-  expect(result).toContain("<h1>Title</h1>");
-});
-
 test("respects theme configuration", async () => {
   const input = "```js\nconst x = 1;\n```";
-  const result = await parseDotmark(input, true, "github-light", "github-dark");
+  const result = await parseDotmark(input, "github-light", "github-dark");
   expect(result).toContain("github-light");
   expect(result).toContain("github-dark");
 });

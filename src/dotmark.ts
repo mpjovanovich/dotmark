@@ -9,7 +9,6 @@ export const DOTMARK_TOKEN = "DOTMARK_DIV";
  * ***********************************************************************/
 export const parseDotmark = async (
   markdown: string,
-  useGitHubStyleIds = false,
   lightTheme = "one-light",
   darkTheme = "one-dark-pro"
 ): Promise<string> => {
@@ -59,13 +58,11 @@ export const parseDotmark = async (
 
   marked.use(highlightExtension);
 
-  if (useGitHubStyleIds) {
-    // Override the heading render method to include GitHub style IDs
-    renderer.heading = ({ text, depth }) => {
-      const escapedText = textToGitHubId(text);
-      return `<h${depth} id="${escapedText}">${text}</h${depth}>\n`;
-    };
-  }
+  // Override the heading render method to include GitHub style IDs
+  renderer.heading = ({ text, depth }) => {
+    const escapedText = textToGitHubId(text);
+    return `<h${depth} id="${escapedText}">${text}</h${depth}>\n`;
+  };
 
   // Parse the markdown
   marked.setOptions({ renderer: renderer });
