@@ -1,15 +1,16 @@
 # dotmark
 
-Style markdown with CSS-like syntax while preserving its readability.
+Style markdown with an unobtrusive CSS-like syntax.
 
+<!-- prettier-ignore-start -->
 ```markdown
 ~#intro.fade-in.left
-
 # Welcome
 
 This markdown stays clean and readable.
 /~
 ```
+<!-- prettier-ignore-end -->
 
 ↓ Transforms to ↓
 
@@ -34,6 +35,7 @@ import { parseDotmark } from "@mpjovanovich/dotmark";
 const markdown = `
 ~#section1.highlight
 # Section 1
+
 Some content here
 /~
 `;
@@ -45,5 +47,5 @@ const html = await parseDotmark(markdown);
 
 - Add IDs and classes to markdown sections
 - GitHub-style heading IDs
-- Syntax highlighting with Shiki
-- Formatted HTML output
+- Syntax highlighting for code blocks
+- Cleanly formatted HTML output
